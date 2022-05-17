@@ -23,14 +23,13 @@
 | -------------- | ---------- | ------------------------------ |
 | name           | string     | null: false                    |
 | description    | text       | null: false                    |
-| category       | string     | null: false                    |
-| condition      | string     | null: false                    |
-| shipment_fee   | string     | null: false                    |
-| delivered_from | string     | null: false                    |
-| lead_time      | string     | null: false                    |
-| price          | int        | null: false                    |
-| available      | boolean    | null: false                    |
-| user_id        | references | null: false, foreign_key: true |
+| category_id    | integer    | null: false                    |
+| condition_id   | integer    | null: false                    |
+| shipment_fee_id| integer    | null: false                    |
+| prefecture_id  | integer    | null: false                    |
+| lead_time_id   | integer    | null: false                    |
+| price          | integer    | null: false                    |
+| user           | references | null: false, foreign_key: true |
 
 ### association
 - belongs_to :user
@@ -41,8 +40,8 @@
 
 | Column    | Type       | Options                        |
 | --------- | ---------- | ------------------------------ |
-| item_id   | references | null: false, foreign_key: true |
-| buyer_id  | references | null: false, foreign_key: true |
+| item      | references | null: false, foreign_key: true |
+| user      | references | null: false, foreign_key: true |
 
 ### association
 - belongs_to :user
@@ -50,15 +49,15 @@
 - has_one :shipment
 
 ## shipments テーブル
-| Column    | Type       | Options                        |
-| --------- | ---------- | ------------------------------ |
-| zip_code  | string     | null: false                    |
-| prefecture| string     | null: false                    |
-| city      | string     | null: false                    |
-| branch    | string     | null: false                    |
-| building  | string     | null: true                     |
-| phone     | string     | null: false                    |
-| order_id  | references | null: false, foreign_key: true |
+| Column        | Type       | Options                        |
+| ------------- | ---------- | ------------------------------ |
+| zip_code      | string     | null: false                    |
+| prefecture_id | integer    | null: false                    |
+| city          | string     | null: false                    |
+| branch        | string     | null: false                    |
+| building      | string     |                                |
+| phone         | string     | null: false                    |
+| order         | references | null: false, foreign_key: true |
 
 ### association
 - belongs_to :order
