@@ -10,7 +10,7 @@ class Item < ApplicationRecord
   validates :shipment_fee_id, presence: true, numericality: { other_than: 1 , message: "can't be blank"}
   validates :prefecture_id, presence: true, numericality: { other_than: 0 , message: "can't be blank"}
   validates :lead_time_id, presence: true, numericality: { other_than: 1 , message: "can't be blank"}
-  validates :price, presence: true, format: {with: /\A[0-9]+\z/ }, numericality: {in: 300..9999999}
+  validates :price, presence: true, format: {with: /\A[0-9]+\z/ }, numericality: {greater_than_or_equal_to: 300, less_than_or_equal_to: 9999999}
 
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to :category
