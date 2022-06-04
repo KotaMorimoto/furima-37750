@@ -1,5 +1,6 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit]
+  before_action :set_item, only: [:show, :edit, :update]
   def index
     @items = Item.all.order(created_at: 'DESC')
   end
@@ -11,7 +12,6 @@ class ItemsController < ApplicationController
   def create
     @item = Item.new(item_params)
     if @item.save
-
       redirect_to root_path
     else
       render :new
@@ -19,16 +19,13 @@ class ItemsController < ApplicationController
   end
 
   def show
-    @item = find_record(params[:id])
   end
 
   def edit
-    @item = find_record(params[:id])
     redirect_to root_path unless current_user.id == @item.user_id
   end
 
   def update
-    @item = find_record(params[:id])
     if @item.update(item_params)
       redirect_to item_path(@item.id)
     else
@@ -43,7 +40,7 @@ class ItemsController < ApplicationController
                                  :lead_time_id, :price, :image).merge(user_id: current_user.id)
   end
 
-  def find_record(id)
-    return Item.find(id)
+  def set_item
+    @item = Item.find(params[:id])
   end
 end
