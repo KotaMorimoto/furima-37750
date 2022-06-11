@@ -11,6 +11,7 @@ class OrdersController < ApplicationController
   def create
     @order_shipment = OrderShipment.new(shipment_params)
     if @order_shipment.valid?
+      pay_item
       @order_shipment.save
       redirect_to root_path
     else
@@ -21,7 +22,7 @@ class OrdersController < ApplicationController
   private
 
   def shipment_params
-    params.require(:order_shipment).permit(:zip_code, :prefecture_id, :city, :branch, :building, :phone).merge(user_id: current_user.id, item_id: params[:item_id])
+    params.require(:order_shipment).permit(:zip_code, :prefecture_id, :city, :branch, :building, :phone).merge(user_id: current_user.id, item_id: params[:item_id], token: params[:token])
   end
 
   def set_item
@@ -34,5 +35,14 @@ class OrdersController < ApplicationController
 
   def inventory_check
     redirect_to root_path if @order = Order.find_by(item_id: @item.id)
+  end
+
+  def pay_item
+    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
+    Payjp::Charge.create(
+      amount: Item.find(shipment_params[:item_id]).price,
+      card: shipment_params[:token],
+      currency: 'jpy'
+    )
   end
 end
