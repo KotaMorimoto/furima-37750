@@ -1,5 +1,9 @@
 class OrdersController < ApplicationController
+  before_action :authenticate_user!, only: [:index,:create]
   before_action :set_item, only: [:index, :create]
+  before_action :user_item_check, only: [:index]
+  before_action :inventory_check, only: [:index]
+
   def index
     @order_shipment = OrderShipment.new
   end
@@ -22,5 +26,13 @@ class OrdersController < ApplicationController
 
   def set_item
     @item = Item.find(params[:item_id])
+  end
+
+  def user_item_check
+    redirect_to root_path if current_user.id == @item.user_id
+  end
+
+  def inventory_check
+    redirect_to root_path if @order = Order.find_by(item_id: @item.id)
   end
 end
