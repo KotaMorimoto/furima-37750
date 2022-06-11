@@ -5,8 +5,8 @@ FactoryBot.define do
     city { '東京都' }
     branch { '1-1' }
     building { '東京ハイツ' }
-    phone {'00012345678'}
-    item_id {99}
-    user_id {1}
+    phone { '00012345678' }
+    item_id { 99 }
+    user_id { 1 }
   end
 end

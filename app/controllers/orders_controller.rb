@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :authenticate_user!, only: [:index,:create]
+  before_action :authenticate_user!, only: [:index, :create]
   before_action :set_item, only: [:index, :create]
   before_action :user_item_check, only: [:index]
   before_action :inventory_check, only: [:index]
@@ -22,7 +22,9 @@ class OrdersController < ApplicationController
   private
 
   def shipment_params
-    params.require(:order_shipment).permit(:zip_code, :prefecture_id, :city, :branch, :building, :phone).merge(user_id: current_user.id, item_id: params[:item_id], token: params[:token])
+    params.require(:order_shipment).permit(:zip_code, :prefecture_id, :city, :branch, :building, :phone).merge(
+      user_id: current_user.id, item_id: params[:item_id], token: params[:token]
+    )
   end
 
   def set_item
@@ -38,7 +40,7 @@ class OrdersController < ApplicationController
   end
 
   def pay_item
-    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
+    Payjp.api_key = ENV['PAYJP_SECRET_KEY']
     Payjp::Charge.create(
       amount: Item.find(shipment_params[:item_id]).price,
       card: shipment_params[:token],
