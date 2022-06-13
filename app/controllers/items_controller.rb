@@ -23,6 +23,7 @@ class ItemsController < ApplicationController
 
   def edit
     redirect_to root_path unless current_user.id == @item.user_id
+    redirect_to root_path if order = Order.find_by(item_id: @item.id)
   end
 
   def update
