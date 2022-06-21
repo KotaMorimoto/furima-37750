@@ -50,5 +50,6 @@ test:
 production:
   <<: *default
   database: furima_37750_production
-  username: furima_37750
-  password: <%= ENV['FURIMA_37750_DATABASE_PASSWORD'] %>
+  username: admin
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  host: <%= ENV['AWS_DB_ENDPOINT'] %>
