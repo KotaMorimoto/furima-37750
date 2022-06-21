@@ -53,3 +53,4 @@ production:
   username: admin
   password: <%= ENV['DATABASE_PASSWORD'] %>
   host: <%= ENV['AWS_DB_ENDPOINT'] %>
+  socket: /var/lib/mysql/mysql.sock
